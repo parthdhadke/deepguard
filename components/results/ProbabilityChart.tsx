@@ -40,11 +40,7 @@ export default function ProbabilityChart({ data, type }: ProbabilityChartProps) 
               <YAxis domain={[0, 1]} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} axisLine={{ stroke: 'var(--border)' }} tickFormatter={(v) => `${(v * 100).toFixed(0)}%`} />
               <Tooltip
                 contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '16px', color: 'var(--foreground)' }}
-<<<<<<< HEAD
-                formatter={(value) => [`${(Number(value) * 100).toFixed(1)}%`, 'Confidence']}
-=======
                 formatter={(value) => [`${((value as number) * 100).toFixed(1)}%`, 'Confidence']}
->>>>>>> 830286b980ef5a64e15b474dfb153b0de18322b1
               />
               <Area type="monotone" dataKey="confidence" stroke="var(--primary)" strokeWidth={2} fill="url(#confidenceGradient)" />
             </AreaChart>
@@ -55,11 +51,7 @@ export default function ProbabilityChart({ data, type }: ProbabilityChartProps) 
               <YAxis domain={[0, 1]} tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} axisLine={{ stroke: 'var(--border)' }} tickFormatter={(v) => `${(v * 100).toFixed(0)}%`} />
               <Tooltip
                 contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '16px', color: 'var(--foreground)' }}
-<<<<<<< HEAD
-                formatter={(value) => [`${(Number(value) * 100).toFixed(1)}%`, 'Confidence']}
-=======
                 formatter={(value) => [`${((value as number) * 100).toFixed(1)}%`, 'Confidence']}
->>>>>>> 830286b980ef5a64e15b474dfb153b0de18322b1
               />
               <Bar dataKey="confidence" fill="var(--primary)" radius={[8, 8, 0, 0]} />
             </BarChart>

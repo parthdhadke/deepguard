@@ -23,12 +23,7 @@ app = FastAPI(
 # CORS middleware - allows frontend to call this API from different domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://deepguard.vercel.app",
-        "http://localhost:3000",
-        "http://localhost:5500",
-        "*"
-    ],
+    allow_origins=["*"],  # In production, replace with specific domains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

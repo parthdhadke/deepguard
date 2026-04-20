@@ -67,50 +67,71 @@ val_transform = A.Compose([
 class FaceExtractor:
     """
     Extracts faces from images using Haar Cascade.
-    Wrapper around face_utils.extract_face for training pipeline use.
-
+    
     Usage:
         extractor = FaceExtractor()
         face = extractor.extract(image_bgr)
     """
-
+    
     def __init__(self, padding: float = 0.2, target_size: int = IMG_SIZE):
         """
         Initialize face extractor.
-
+        
         Args:
             padding (float): Fraction of face box to add as padding (0.2 = 20%)
             target_size (int): Output size in pixels
         """
         self.padding = padding
         self.target_size = target_size
-
-        # Import and use the shared face extraction function
-        from face_utils import extract_face
-        self._extract_func = extract_face
-
-        # Load Haar Cascade for validation
+        
+        # Load Haar Cascade
         cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
         self.face_cascade = cv2.CascadeClassifier(cascade_path)
-
+        
         if self.face_cascade.empty():
             raise ValueError("Failed to load Haar Cascade classifier")
-
+    
     def extract(self, image_bgr: np.ndarray) -> np.ndarray:
         """
         Extract face from image.
-
+        
         Args:
             image_bgr (np.ndarray): Input image in BGR format
-
+        
         Returns:
             np.ndarray: Cropped face, or None if no face found
         """
-        return self._extract_func(
-            image_bgr,
-            target_size=(self.target_size, self.target_size),
-            padding=self.padding
+        gray = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
+        h, w = image_bgr.shape[:2]
+        
+        # Detect faces
+        faces = self.face_cascade.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(60, 60)
         )
+        
+        if len(faces) == 0:
+            return None
+        
+        # Select largest face
+        faces = sorted(faces, key=lambda f: f[2] * f[3], reverse=True)
+        x, y, fw, fh = faces[0]
+        
+        # Add padding
+        pad_x = int(fw * self.padding)
+        pad_y = int(fh * self.padding)
+        x1 = max(0, x - pad_x)
+        y1 = max(0, y - pad_y)
+        x2 = min(w, x + fw + pad_x)
+        y2 = min(h, y + fh + pad_y)
+        
+        # Crop and resize
+        face_crop = image_bgr[y1:y2, x1:x2]
+        face_resized = cv2.resize(face_crop, (self.target_size, self.target_size))
+        
+        return face_resized
 
 
 # ═══════════════════════════════════════════════════════════════════════

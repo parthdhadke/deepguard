@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: deepfake-detector-api
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.10"

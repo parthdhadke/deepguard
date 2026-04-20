@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+<<<<<<< HEAD
+      "Bash(find:*)",
+      "Bash(cd:*)",
+      "Bash(curl:*)"
+=======
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:3000)"
+>>>>>>> 69c04cf (Initial Upload Frontend)
+    ]
+  }
+}
